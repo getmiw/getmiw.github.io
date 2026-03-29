@@ -3,10 +3,723 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MiW</title>
-    <meta http-equiv="refresh" content="0; url=/privacy-policy/" />
+    <title>MiW | Offline-first cat care app</title>
+    <meta
+      name="description"
+      content="MiW is an offline-first Android app to track cat weight, care routines, and reminders. It is totally free and open source."
+    />
+    <meta property="og:title" content="MiW | Offline-first cat care app" />
+    <meta
+      property="og:description"
+      content="Track your cat's health routines with an offline-first, totally free, and open-source Android app."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://getmiw.github.io/" />
+    <meta name="theme-color" content="#3A1444" />
+    <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
+    <link rel="shortcut icon" href="assets/brand/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #3a1444;
+        --primary-container: #522b5b;
+        --surface: #fcf9f4;
+        --surface-container: #f0ede9;
+        --on-surface: #2f2633;
+        --on-surface-variant: #4d444d;
+        --outline-variant: #d0c3cd;
+        --white: #ffffff;
+        --shadow: 0 16px 36px rgba(58, 20, 68, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+        color: var(--on-surface);
+        background:
+          radial-gradient(circle at 8% -10%, rgba(82, 43, 91, 0.12) 0, transparent 34%),
+          radial-gradient(circle at 92% 10%, rgba(58, 20, 68, 0.08) 0, transparent 26%),
+          var(--surface);
+        line-height: 1.45;
+      }
+
+      .shell {
+        width: min(1120px, 92vw);
+        margin: 0 auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(8px);
+        background: color-mix(in srgb, var(--surface) 90%, white 10%);
+        border-bottom: 1px solid color-mix(in srgb, var(--outline-variant) 70%, transparent 30%);
+      }
+
+      .topbar-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 0 12px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: var(--primary);
+      }
+
+      .brand-dot {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+
+      .top-links {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .top-links a {
+        color: var(--on-surface);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.92rem;
+      }
+
+      .lang-toggle {
+        display: inline-flex;
+        border: 1px solid var(--outline-variant);
+        border-radius: 999px;
+        overflow: hidden;
+        background: var(--white);
+      }
+
+      .lang-btn {
+        border: 0;
+        background: transparent;
+        color: var(--on-surface-variant);
+        font-weight: 700;
+        font-size: 0.8rem;
+        padding: 8px 11px;
+        cursor: pointer;
+      }
+
+      .lang-btn[aria-pressed="true"] {
+        color: var(--white);
+        background: var(--primary);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: transform 160ms ease, box-shadow 200ms ease, background 180ms ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(130deg, var(--primary), var(--primary-container));
+        color: var(--white);
+        box-shadow: 0 10px 22px rgba(58, 20, 68, 0.28);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 28px rgba(58, 20, 68, 0.35);
+      }
+
+      .btn-ghost {
+        color: var(--on-surface);
+        border: 1px solid var(--outline-variant);
+        background: var(--white);
+      }
+
+      .btn-ghost:hover {
+        transform: translateY(-1px);
+        background: color-mix(in srgb, var(--surface-container) 50%, white 50%);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 34px;
+        align-items: center;
+        padding: 72px 0 54px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--primary-container) 14%, var(--white) 86%);
+        color: var(--primary);
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      h1,
+      h2 {
+        font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+        letter-spacing: -0.01em;
+        line-height: 1.07;
+        margin: 0;
+        color: var(--primary);
+      }
+
+      h1 {
+        margin-top: 18px;
+        font-size: clamp(2.1rem, 5vw, 3.7rem);
+      }
+
+      .hero p {
+        color: var(--on-surface-variant);
+        font-size: 1.05rem;
+        margin: 16px 0 20px;
+        max-width: 58ch;
+      }
+
+      .claim-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .claim {
+        padding: 7px 11px;
+        border-radius: 999px;
+        border: 1px solid var(--outline-variant);
+        background: var(--white);
+        color: var(--on-surface-variant);
+        font-weight: 700;
+        font-size: 0.8rem;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .hero-card {
+        background: linear-gradient(150deg, var(--surface), var(--surface-container));
+        border: 1px solid var(--outline-variant);
+        border-radius: 28px;
+        box-shadow: var(--shadow);
+        padding: 20px;
+        transform-origin: center;
+      }
+
+      .hero-shot {
+        width: 100%;
+        border-radius: 22px;
+        border: 1px solid var(--outline-variant);
+        background: var(--white);
+        box-shadow: 0 12px 26px rgba(58, 20, 68, 0.12);
+      }
+
+      section {
+        padding: 30px 0;
+      }
+
+      .section-head {
+        margin-bottom: 18px;
+      }
+
+      .section-head p {
+        color: var(--on-surface-variant);
+        margin-top: 10px;
+      }
+
+      .shots {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .shot-card {
+        border-radius: 20px;
+        background: var(--surface-container);
+        border: 1px solid var(--outline-variant);
+        padding: 10px;
+      }
+
+      .shot-card img {
+        width: 100%;
+        height: 100%;
+        max-height: 480px;
+        object-fit: cover;
+        object-position: top;
+        border-radius: 14px;
+        border: 1px solid color-mix(in srgb, var(--outline-variant) 70%, transparent 30%);
+        display: block;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .feature {
+        background: color-mix(in srgb, var(--surface-container) 56%, var(--white) 44%);
+        border: 1px solid var(--outline-variant);
+        border-radius: 24px;
+        padding: 16px;
+        min-height: 150px;
+      }
+
+      .feature h3 {
+        margin: 8px 0 6px;
+        font-size: 1rem;
+      }
+
+      .feature p {
+        margin: 0;
+        color: var(--on-surface-variant);
+        font-size: 0.95rem;
+      }
+
+      .icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: color-mix(in srgb, var(--primary-container) 15%, var(--white) 85%);
+        font-weight: 800;
+        color: var(--primary);
+      }
+
+      .trust {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .trust-card {
+        background: var(--white);
+        border: 1px solid var(--outline-variant);
+        border-radius: 24px;
+        padding: 16px;
+      }
+
+      .trust-card p {
+        color: var(--on-surface-variant);
+      }
+
+      .cta {
+        margin: 22px 0 34px;
+        border: 1px solid var(--outline-variant);
+        background: linear-gradient(
+          120deg,
+          color-mix(in srgb, var(--primary-container) 18%, var(--white) 82%),
+          color-mix(in srgb, var(--surface-container) 70%, var(--white) 30%)
+        );
+        border-radius: 28px;
+        padding: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .cta p {
+        margin: 7px 0 0;
+        color: var(--on-surface-variant);
+      }
+
+      footer {
+        padding: 10px 0 38px;
+        color: var(--on-surface-variant);
+        font-size: 0.9rem;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 520ms ease, transform 520ms ease;
+      }
+
+      .stagger-1.show {
+        transition-delay: 40ms;
+      }
+
+      .stagger-2.show {
+        transition-delay: 110ms;
+      }
+
+      .stagger-3.show {
+        transition-delay: 180ms;
+      }
+
+      @media (max-width: 900px) {
+        .hero {
+          grid-template-columns: 1fr;
+          padding-top: 56px;
+        }
+
+        .shots {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .features,
+        .trust {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .cta {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .top-links {
+          gap: 14px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .topbar-inner {
+          flex-direction: column;
+          gap: 10px;
+          align-items: flex-start;
+        }
+
+        .features,
+        .trust {
+          grid-template-columns: 1fr;
+        }
+
+        .shots {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-card {
+          padding: 18px;
+          border-radius: 20px;
+        }
+
+        .btn {
+          width: 100%;
+        }
+
+        .hero-actions {
+          width: 100%;
+        }
+
+        .top-links {
+          width: 100%;
+          justify-content: space-between;
+          gap: 8px;
+        }
+
+        .top-links a {
+          font-size: 0.85rem;
+        }
+      }
+    </style>
   </head>
   <body>
-    <p>Redirecting to <a href="/privacy-policy/">MiW Privacy Policy</a>...</p>
+    <header class="topbar">
+      <div class="shell topbar-inner">
+        <div class="brand">
+          <img class="brand-dot" src="assets/brand/miw-logo-temporary.svg" alt="MiW logo" />
+          <span>MiW</span>
+        </div>
+        <nav class="top-links" aria-label="Main">
+          <a href="#features" data-i18n="navFeatures">Features</a>
+          <a href="#trust" data-i18n="navWhy">Why MiW</a>
+          <a href="/privacy-policy/" data-i18n="navPrivacy">Privacy</a>
+          <div class="lang-toggle" role="group" aria-label="Language selector">
+            <button class="lang-btn" id="lang-en" aria-pressed="true">EN</button>
+            <button class="lang-btn" id="lang-pt" aria-pressed="false">PT-BR</button>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <div class="reveal">
+          <span class="eyebrow" data-i18n="eyebrow">Android app in active development</span>
+          <h1 data-i18n="heroTitle">The cat care app that works even when you are offline.</h1>
+          <p data-i18n="heroBody">
+            MiW helps guardians organize weight history, vaccines, deworming, and reminders with a clear,
+            practical flow.
+          </p>
+          <div class="claim-list" aria-label="Main claims">
+            <span class="claim" data-i18n="claim1">Offline-first</span>
+            <span class="claim" data-i18n="claim2">Totally free</span>
+            <span class="claim" data-i18n="claim3">Open source</span>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://github.com/woliveiras/miw" data-i18n="heroCta1"
+              >View Open Source Project</a
+            >
+            <a class="btn btn-ghost" href="/privacy-policy/" data-i18n="heroCta2">Read Privacy Policy</a>
+          </div>
+        </div>
+
+        <aside class="hero-card reveal stagger-1" aria-label="Preview">
+          <img
+            class="hero-shot"
+            src="assets/screenshots/home-light.png"
+            alt="MiW home screen preview"
+            data-i18n-alt="heroShotAlt"
+            loading="eager"
+          />
+        </aside>
+      </section>
+
+      <section id="screenshots">
+        <div class="section-head reveal">
+          <h2 data-i18n="shotsTitle">Real app screenshots</h2>
+          <p data-i18n="shotsBody">Built screens from the current app experience, not concept mockups.</p>
+        </div>
+        <div class="shots">
+          <article class="shot-card reveal stagger-1">
+            <img src="assets/screenshots/home-light.png" alt="Home screen" data-i18n-alt="shotHomeAlt" loading="lazy" />
+          </article>
+          <article class="shot-card reveal stagger-2">
+            <img
+              src="assets/screenshots/cat-profile-light.png"
+              alt="Cat profile screen"
+              data-i18n-alt="shotProfileAlt"
+              loading="lazy"
+            />
+          </article>
+          <article class="shot-card reveal stagger-1">
+            <img
+              src="assets/screenshots/cat-weight-light.png"
+              alt="Weight chart screen"
+              data-i18n-alt="shotWeightAlt"
+              loading="lazy"
+            />
+          </article>
+          <article class="shot-card reveal stagger-2">
+            <img src="assets/screenshots/actions-light.png" alt="Actions screen" data-i18n-alt="shotActionsAlt" loading="lazy" />
+          </article>
+        </div>
+      </section>
+
+      <section id="features">
+        <div class="section-head reveal">
+          <h2 data-i18n="featuresTitle">Designed for real cat-care routines</h2>
+          <p data-i18n="featuresBody">No clutter. Just the information that helps you stay consistent.</p>
+        </div>
+        <div class="features">
+          <article class="feature reveal stagger-1">
+            <div class="icon" aria-hidden="true">01</div>
+            <h3 data-i18n="feature1Title">Weight history at a glance</h3>
+            <p data-i18n="feature1Body">Track records over time and identify health changes sooner.</p>
+          </article>
+          <article class="feature reveal stagger-2">
+            <div class="icon" aria-hidden="true">02</div>
+            <h3 data-i18n="feature2Title">Vaccines and deworming</h3>
+            <p data-i18n="feature2Body">Organize milestones with clear due dates and practical history.</p>
+          </article>
+          <article class="feature reveal stagger-3">
+            <div class="icon" aria-hidden="true">03</div>
+            <h3 data-i18n="feature3Title">Reliable reminder flow</h3>
+            <p data-i18n="feature3Body">Reduce missed routines with simple reminders that keep care on track.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="trust">
+        <div class="section-head reveal">
+          <h2 data-i18n="trustTitle">Built with trust in mind</h2>
+          <p data-i18n="trustBody">Offline-first, privacy-aware, and open to contributors at all experience levels.</p>
+        </div>
+        <div class="trust">
+          <article class="trust-card reveal stagger-1">
+            <h3 data-i18n="trust1Title">Offline-first architecture</h3>
+            <p data-i18n="trust1Body">Your data is stored locally first, so the app remains useful without internet.</p>
+          </article>
+          <article class="trust-card reveal stagger-2">
+            <h3 data-i18n="trust2Title">Totally free and open source</h3>
+            <p data-i18n="trust2Body">No paid tiers and no hidden lock-in. Source code is public and auditable.</p>
+          </article>
+          <article class="trust-card reveal stagger-3">
+            <h3 data-i18n="trust3Title">Transparent project policies</h3>
+            <p data-i18n="trust3Body">Privacy policy, code of conduct, and security process are publicly documented.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="cta reveal">
+        <div>
+          <h2 data-i18n="ctaTitle">Follow MiW progress</h2>
+          <p data-i18n="ctaBody">Track updates and releases directly in the public repository.</p>
+        </div>
+        <a class="btn btn-primary" href="https://github.com/woliveiras/miw" data-i18n="ctaButton">Go to GitHub</a>
+      </section>
+    </main>
+
+    <footer class="shell">
+      <p data-i18n="footerText">MiW is an offline-first, totally free, open-source project for cat care tracking.</p>
+    </footer>
+
+    <script>
+      const copy = {
+        en: {
+          navFeatures: "Features",
+          navWhy: "Why MiW",
+          navPrivacy: "Privacy",
+          eyebrow: "Android app in active development",
+          heroTitle: "The cat care app that works even when you are offline.",
+          heroBody:
+            "MiW helps guardians organize weight history, vaccines, deworming, and reminders with a clear, practical flow.",
+          claim1: "Offline-first",
+          claim2: "Totally free",
+          claim3: "Open source",
+          heroCta1: "View Open Source Project",
+          heroCta2: "Read Privacy Policy",
+          heroShotAlt: "MiW home screen preview",
+          shotsTitle: "Real app screenshots",
+          shotsBody: "Built screens from the current app experience, not concept mockups.",
+          shotHomeAlt: "MiW home screen",
+          shotProfileAlt: "MiW cat profile screen",
+          shotWeightAlt: "MiW cat weight screen",
+          shotActionsAlt: "MiW actions screen",
+          featuresTitle: "Designed for real cat-care routines",
+          featuresBody: "No clutter. Just the information that helps you stay consistent.",
+          feature1Title: "Weight history at a glance",
+          feature1Body: "Track records over time and identify health changes sooner.",
+          feature2Title: "Vaccines and deworming",
+          feature2Body: "Organize milestones with clear due dates and practical history.",
+          feature3Title: "Reliable reminder flow",
+          feature3Body: "Reduce missed routines with simple reminders that keep care on track.",
+          trustTitle: "Built with trust in mind",
+          trustBody: "Offline-first, privacy-aware, and open to contributors at all experience levels.",
+          trust1Title: "Offline-first architecture",
+          trust1Body: "Your data is stored locally first, so the app remains useful without internet.",
+          trust2Title: "Totally free and open source",
+          trust2Body: "No paid tiers and no hidden lock-in. Source code is public and auditable.",
+          trust3Title: "Transparent project policies",
+          trust3Body: "Privacy policy, code of conduct, and security process are publicly documented.",
+          ctaTitle: "Follow MiW progress",
+          ctaBody: "Track updates and releases directly in the public repository.",
+          ctaButton: "Go to GitHub",
+          footerText: "MiW is an offline-first, totally free, open-source project for cat care tracking."
+        },
+        "pt-BR": {
+          navFeatures: "Recursos",
+          navWhy: "Por que MiW",
+          navPrivacy: "Privacidade",
+          eyebrow: "App Android em desenvolvimento ativo",
+          heroTitle: "O app de cuidado felino que funciona mesmo sem internet.",
+          heroBody:
+            "O MiW ajuda tutores a organizar peso, vacinas, vermifugacao e lembretes com um fluxo claro e pratico.",
+          claim1: "Offline-first",
+          claim2: "Totalmente gratuito",
+          claim3: "Open source",
+          heroCta1: "Ver projeto open source",
+          heroCta2: "Ler politica de privacidade",
+          heroShotAlt: "Preview da tela inicial do MiW",
+          shotsTitle: "Screenshots reais do app",
+          shotsBody: "Telas reais da experiencia atual do app, sem mockup conceitual.",
+          shotHomeAlt: "Tela inicial do MiW",
+          shotProfileAlt: "Tela de perfil do gato no MiW",
+          shotWeightAlt: "Tela de peso do gato no MiW",
+          shotActionsAlt: "Tela de acoes do MiW",
+          featuresTitle: "Desenhado para rotinas reais de cuidado felino",
+          featuresBody: "Sem poluicao visual. So o que ajuda voce a manter consistencia.",
+          feature1Title: "Historico de peso de forma rapida",
+          feature1Body: "Acompanhe registros ao longo do tempo e identifique mudancas mais cedo.",
+          feature2Title: "Vacinas e vermifugacao",
+          feature2Body: "Organize marcos de saude com vencimentos claros e historico pratico.",
+          feature3Title: "Fluxo confiavel de lembretes",
+          feature3Body: "Reduza esquecimentos com lembretes simples que mantem os cuidados em dia.",
+          trustTitle: "Construido com confianca em primeiro lugar",
+          trustBody: "Offline-first, consciente de privacidade e aberto a contribuidores de todos os niveis.",
+          trust1Title: "Arquitetura offline-first",
+          trust1Body: "Seus dados ficam locais primeiro, mantendo o app util mesmo sem internet.",
+          trust2Title: "Totalmente gratuito e open source",
+          trust2Body: "Sem plano pago e sem lock-in oculto. Codigo publico e auditavel.",
+          trust3Title: "Politicas transparentes do projeto",
+          trust3Body: "Politica de privacidade, codigo de conduta e processo de seguranca sao publicos.",
+          ctaTitle: "Acompanhe a evolucao do MiW",
+          ctaBody: "Veja atualizacoes e releases direto no repositorio publico.",
+          ctaButton: "Ir para o GitHub",
+          footerText: "MiW e um projeto offline-first, totalmente gratuito e open source para cuidado felino."
+        }
+      };
+
+      function applyLanguage(lang) {
+        const current = copy[lang] || copy.en;
+        document.documentElement.lang = lang === "pt-BR" ? "pt-BR" : "en";
+
+        document.querySelectorAll("[data-i18n]").forEach((node) => {
+          const key = node.getAttribute("data-i18n");
+          if (current[key]) node.textContent = current[key];
+        });
+
+        document.querySelectorAll("[data-i18n-alt]").forEach((node) => {
+          const key = node.getAttribute("data-i18n-alt");
+          if (current[key]) node.setAttribute("alt", current[key]);
+        });
+
+        const enBtn = document.getElementById("lang-en");
+        const ptBtn = document.getElementById("lang-pt");
+        const isPt = lang === "pt-BR";
+        enBtn.setAttribute("aria-pressed", String(!isPt));
+        ptBtn.setAttribute("aria-pressed", String(isPt));
+      }
+
+      const browserLang = navigator.language === "pt-BR" || navigator.language.startsWith("pt") ? "pt-BR" : "en";
+      applyLanguage(browserLang);
+
+      document.getElementById("lang-en").addEventListener("click", () => applyLanguage("en"));
+      document.getElementById("lang-pt").addEventListener("click", () => applyLanguage("pt-BR"));
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("show");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.16 }
+      );
+
+      document.querySelectorAll(".reveal").forEach((item) => observer.observe(item));
+    </script>
   </body>
 </html>

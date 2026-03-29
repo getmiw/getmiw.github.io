@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">MiW Temporary Logo</title>
+  <desc id="desc">Circular mark with a soft ring and a purple center dot</desc>
+  <rect width="128" height="128" rx="28" fill="none" />
+  <circle cx="64" cy="64" r="48" fill="#D8D1DA" />
+  <circle cx="64" cy="64" r="34" fill="#EFEAF0" />
+  <circle cx="64" cy="64" r="23" fill="#5A2C67" />
+</svg>
